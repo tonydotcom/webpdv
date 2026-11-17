@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block titulo %}Venda #{{ venda.id }}{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Venda #{{ venda.id }}</h1>
+  <button class="botao botao-secundario" type="button" onclick="window.print()">Imprimir</button>
+</div>
+
+<div class="comprovante">
+  <p><strong>Data:</strong> {{ venda.data_hora | data_hora }}</p>
+  <p><strong>Pagamento:</strong> {{ venda.forma_pagamento_descricao }}</p>
+
+  <table>
+    <thead><tr><th>Produto</th><th class="num">Qtd.</th><th class="num">Unitário</th><th class="num">Subtotal</th></tr></thead>
+    <tbody>
+      {% for item in venda.itens %}
+      <tr>
+        <td>{{ item.nome }} <small class="mono">{{ item.codigo_barras }}</small></td>
+        <td class="num">{{ item.quantidade }}</td>
+        <td class="num">{{ item.preco_unitario_centavos | reais }}</td>
+        <td class="num">{{ item.subtotal_centavos | reais }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr><th colspan="3">Total ({{ venda.quantidade_itens }} itens)</th><th class="num">{{ venda.total_centavos | reais }}</th></tr>
+      {% if venda.forma_pagamento == 'DINHEIRO' %}
+      <tr><td colspan="3">Valor recebido</td><td class="num">{{ venda.valor_recebido_centavos | reais }}</td></tr>
+      <tr><td colspan="3">Troco</td><td class="num">{{ venda.troco_centavos | reais }}</td></tr>
+      {% endif %}
+    </tfoot>
+  </table>
+</div>
+
+<p><a href="{{ url_for('vendas.listar') }}">← Voltar para vendas</a></p>
+{% endblock %}

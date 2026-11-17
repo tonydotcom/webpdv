@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block titulo %}Nova venda{% endblock %}
+{% block conteudo %}
+<h1>Nova venda</h1>
+
+<div class="caixa">
+  <section class="caixa-itens">
+    <form id="form-item" class="adicionar-item" autocomplete="off">
+      <div class="campo campo-codigo">
+        <label for="codigo">Código de barras</label>
+        <input id="codigo" name="codigo" inputmode="numeric" placeholder="Leia ou digite o código e tecle Enter" autofocus>
+      </div>
+      <div class="campo campo-qtd">
+        <label for="quantidade">Qtd.</label>
+        <input id="quantidade" name="quantidade" type="number" min="1" step="1" value="1">
+      </div>
+      <button class="botao" type="submit">Adicionar</button>
+    </form>
+
+    <details class="busca-nome">
+      <summary>Não tem código? Buscar pelo nome</summary>
+      <input id="busca-nome" type="search" placeholder="Digite pelo menos 2 letras" aria-label="Buscar produto pelo nome">
+      <ul id="resultado-busca" class="resultado-busca"></ul>
+    </details>
+
+    <div id="mensagem" class="alerta" role="alert" hidden></div>
+
+    <table class="tabela-carrinho">
+      <thead>
+        <tr><th>Produto</th><th class="num">Qtd.</th><th class="num">Unitário</th><th class="num">Subtotal</th><th></th></tr>
+      </thead>
+      <tbody id="itens">
+        <tr class="linha-vazia"><td colspan="5">Nenhum item. Leia o código de barras para começar.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <aside class="caixa-pagamento">
+    <div class="total">
+      <span>Total</span>
+      <strong id="total">R$ 0,00</strong>
+      <small id="qtd-itens">0 itens</small>
+    </div>
+
+    <div class="campo">
+      <label for="forma-pagamento">Forma de pagamento</label>
+      <select id="forma-pagamento">
+        {% for codigo, descricao in formas_pagamento.items() %}
+          <option value="{{ codigo }}">{{ descricao }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="campo" id="grupo-recebido">
+      <label for="valor-recebido">Valor recebido (R$)</label>
+      <input id="valor-recebido" inputmode="decimal" placeholder="0,00">
+      <small class="ajuda">Troco: <strong id="troco">R$ 0,00</strong></small>
+    </div>
+
+    <button id="finalizar" class="botao botao-grande" type="button" disabled>Finalizar venda (F10)</button>
+    <button id="cancelar" class="botao botao-secundario" type="button">Limpar venda (Esc)</button>
+  </aside>
+</div>
+
+<dialog id="dialogo-sucesso" class="dialogo">
+  <h2>Venda <span id="numero-venda"></span> finalizada!</h2>
+  <p>Total: <strong id="sucesso-total"></strong></p>
+  <p id="sucesso-troco-linha">Troco: <strong id="sucesso-troco"></strong></p>
+  <div class="botoes">
+    <button id="nova-venda" class="botao" type="button">Nova venda</button>
+    <a id="ver-comprovante" class="botao botao-secundario" href="#">Ver comprovante</a>
+  </div>
+</dialog>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PDV = { urlFinalizar: "{{ url_for('vendas.finalizar') }}", urlProduto: "{{ url_for('produtos.listar') }}api/" };</script>
+<script src="{{ url_for('static', filename='js/carrinho.js') }}"></script>
+<script src="{{ url_for('static', filename='js/pdv.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block titulo %}Produtos{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Produtos</h1>
+  <a class="botao" href="{{ url_for('produtos.novo') }}">+ Novo produto</a>
+</div>
+
+<form class="busca" method="get" action="{{ url_for('produtos.listar') }}">
+  <input type="search" name="busca" value="{{ busca }}" placeholder="Buscar por nome ou código de barras" aria-label="Buscar produto">
+  <button class="botao botao-secundario" type="submit">Buscar</button>
+  {% if busca %}<a href="{{ url_for('produtos.listar') }}">Limpar</a>{% endif %}
+</form>
+
+{% if produtos %}
+<table>
+  <thead>
+    <tr><th>Código de barras</th><th>Nome</th><th class="num">Preço</th><th class="num">Estoque</th><th class="acoes">Ações</th></tr>
+  </thead>
+  <tbody>
+    {% for p in produtos %}
+    <tr>
+      <td class="mono">{{ p.codigo_barras }}</td>
+      <td>{{ p.nome }}</td>
+      <td class="num">{{ p.preco_centavos | reais }}</td>
+      <td class="num">
+        {% if p.estoque_baixo %}<span class="etiqueta {{ 'etiqueta-erro' if p.estoque == 0 else 'etiqueta-aviso' }}">{{ p.estoque }}</span>{% else %}{{ p.estoque }}{% endif %}
+      </td>
+      <td class="acoes">
+        <a href="{{ url_for('produtos.editar', produto_id=p.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('produtos.excluir', produto_id=p.id) }}" class="form-excluir" data-nome="{{ p.nome }}">
+          <button type="submit" class="link-perigo">Excluir</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p class="vazio">{% if busca %}Nenhum produto encontrado para "{{ busca }}".{% else %}Nenhum produto cadastrado ainda.{% endif %}</p>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Pede confirmação antes de excluir (a exclusão não pode ser desfeita).
+  document.querySelectorAll(".form-excluir").forEach(function (form) {
+    form.addEventListener("submit", function (evento) {
+      if (!window.confirm('Excluir o produto "' + form.dataset.nome + '"? Esta ação não pode ser desfeita.')) {
+        evento.preventDefault();
+      }
+    });
+  });
+</script>
+{% endblock %}

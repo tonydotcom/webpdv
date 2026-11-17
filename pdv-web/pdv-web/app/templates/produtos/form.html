@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% macro campo(nome, rotulo, tipo="text", ajuda="", attrs="") %}
+  <div class="campo {{ 'campo-erro' if erros.get(nome) }}">
+    <label for="{{ nome }}">{{ rotulo }}</label>
+    <input id="{{ nome }}" name="{{ nome }}" type="{{ tipo }}" value="{{ dados.get(nome, '') }}" {{ attrs | safe }}
+           {% if erros.get(nome) %}aria-invalid="true" aria-describedby="erro-{{ nome }}"{% endif %}>
+    {% if erros.get(nome) %}<small class="msg-erro" id="erro-{{ nome }}">{{ erros[nome] }}</small>
+    {% elif ajuda %}<small class="ajuda">{{ ajuda }}</small>{% endif %}
+  </div>
+{% endmacro %}
+
+{% block conteudo %}
+<h1>{{ titulo }}</h1>
+<form class="formulario" method="post" novalidate>
+  {{ campo("codigo_barras", "Código de barras", ajuda="De 8 a 14 números (EAN-8 ou EAN-13).",
+           attrs='inputmode="numeric" maxlength="14" required autofocus') }}
+  {{ campo("nome", "Nome do produto", attrs='maxlength="100" required') }}
+  <div class="linha">
+    {{ campo("preco", "Preço de venda (R$)", ajuda="Exemplo: 12,50", attrs='inputmode="decimal" required') }}
+    {{ campo("estoque", "Quantidade em estoque", tipo="number", attrs='min="0" step="1" required') }}
+  </div>
+  <div class="botoes">
+    <button class="botao" type="submit">Salvar</button>
+    <a class="botao botao-secundario" href="{{ url_for('produtos.listar') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block titulo %}Vendas{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Vendas</h1>
+  <a class="botao" href="{{ url_for('vendas.nova') }}">+ Nova venda</a>
+</div>
+
+<form class="busca" method="get">
+  <label for="data">Filtrar por dia</label>
+  <input id="data" type="date" name="data" value="{{ data }}">
+  <button class="botao botao-secundario" type="submit">Filtrar</button>
+  {% if data %}<a href="{{ url_for('vendas.listar') }}">Ver todas</a>{% endif %}
+</form>
+{% if erro_data %}<div class="alerta alerta-erro">{{ erro_data }}</div>{% endif %}
+
+{% if vendas %}
+<table>
+  <thead><tr><th>Nº</th><th>Data e hora</th><th>Pagamento</th><th class="num">Total</th><th></th></tr></thead>
+  <tbody>
+    {% for v in vendas %}
+    <tr>
+      <td>#{{ v.id }}</td>
+      <td>{{ v.data_hora | data_hora }}</td>
+      <td>{{ v.forma_pagamento_descricao }}</td>
+      <td class="num">{{ v.total_centavos | reais }}</td>
+      <td class="acoes"><a href="{{ url_for('vendas.detalhe', venda_id=v.id) }}">Detalhes</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr><th colspan="3">{{ vendas | length }} venda(s)</th><th class="num">{{ total | reais }}</th><th></th></tr>
+  </tfoot>
+</table>
+{% else %}
+  <p class="vazio">Nenhuma venda encontrada.</p>
+{% endif %}
+{% endblock %}

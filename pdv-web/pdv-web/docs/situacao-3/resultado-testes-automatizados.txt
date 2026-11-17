@@ -1,0 +1,121 @@
+PDV Web - resultado dos testes automatizados
+Gerado em: 16/11/2026 21:27
+
+===== Back-end: pytest -v =====
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /home/claude/pdv-web
+configfile: pytest.ini
+testpaths: tests
+plugins: platformdirs-4.13.5, anyio-4.15.1
+collecting ... collected 93 items
+
+tests/test_controllers.py::test_paginas_abrem[/] PASSED                  [  1%]
+tests/test_controllers.py::test_paginas_abrem[/produtos/] PASSED         [  2%]
+tests/test_controllers.py::test_paginas_abrem[/produtos/novo] PASSED     [  3%]
+tests/test_controllers.py::test_paginas_abrem[/vendas/] PASSED           [  4%]
+tests/test_controllers.py::test_paginas_abrem[/vendas/nova] PASSED       [  5%]
+tests/test_controllers.py::test_painel_mostra_estoque_baixo PASSED       [  6%]
+tests/test_controllers.py::test_pagina_inexistente_mostra_erro_404 PASSED [  7%]
+tests/test_controllers.py::test_erro_inesperado_mostra_pagina_500 PASSED [  8%]
+tests/test_controllers.py::test_cadastrar_produto PASSED                 [  9%]
+tests/test_controllers.py::test_cadastrar_produto_invalido_mostra_erros PASSED [ 10%]
+tests/test_controllers.py::test_editar_produto PASSED                    [ 11%]
+tests/test_controllers.py::test_editar_produto_inexistente PASSED        [ 12%]
+tests/test_controllers.py::test_excluir_produto PASSED                   [ 13%]
+tests/test_controllers.py::test_excluir_produto_vendido_mostra_aviso PASSED [ 15%]
+tests/test_controllers.py::test_excluir_exige_post PASSED                [ 16%]
+tests/test_controllers.py::test_api_busca_por_codigo PASSED              [ 17%]
+tests/test_controllers.py::test_api_codigo_inexistente_responde_json PASSED [ 18%]
+tests/test_controllers.py::test_api_busca_por_nome PASSED                [ 19%]
+tests/test_controllers.py::test_finalizar_venda_em_dinheiro PASSED       [ 20%]
+tests/test_controllers.py::test_finalizar_venda_estoque_insuficiente PASSED [ 21%]
+tests/test_controllers.py::test_finalizar_venda_invalida[corpo0-pelo menos um produto] PASSED [ 22%]
+tests/test_controllers.py::test_finalizar_venda_invalida[corpo1-Valor recebido inv\xe1lido] PASSED [ 23%]
+tests/test_controllers.py::test_finalizar_venda_invalida[corpo2-forma de pagamento] PASSED [ 24%]
+tests/test_controllers.py::test_finalizar_venda_sem_json PASSED          [ 25%]
+tests/test_controllers.py::test_lista_vendas_com_filtro_de_data PASSED   [ 26%]
+tests/test_controllers.py::test_detalhe_venda_inexistente PASSED         [ 27%]
+tests/test_dinheiro.py::test_converte_reais_para_centavos[12,50-1250] PASSED [ 29%]
+tests/test_dinheiro.py::test_converte_reais_para_centavos[12.5-1250] PASSED [ 30%]
+tests/test_dinheiro.py::test_converte_reais_para_centavos[12-1200] PASSED [ 31%]
+tests/test_dinheiro.py::test_converte_reais_para_centavos[0,05-5] PASSED [ 32%]
+tests/test_dinheiro.py::test_converte_reais_para_centavos[1.234,56-123456] PASSED [ 33%]
+tests/test_dinheiro.py::test_converte_reais_para_centavos[R$ 9,99-999] PASSED [ 34%]
+tests/test_dinheiro.py::test_converte_reais_para_centavos[ 3,1 -310] PASSED [ 35%]
+tests/test_dinheiro.py::test_rejeita_valores_invalidos[] PASSED          [ 36%]
+tests/test_dinheiro.py::test_rejeita_valores_invalidos[abc] PASSED       [ 37%]
+tests/test_dinheiro.py::test_rejeita_valores_invalidos[12,345] PASSED    [ 38%]
+tests/test_dinheiro.py::test_rejeita_valores_invalidos[-5] PASSED        [ 39%]
+tests/test_dinheiro.py::test_rejeita_valores_invalidos[1,2,3] PASSED     [ 40%]
+tests/test_dinheiro.py::test_rejeita_valores_invalidos[None] PASSED      [ 41%]
+tests/test_dinheiro.py::test_formata_reais[0-R$ 0,00] PASSED             [ 43%]
+tests/test_dinheiro.py::test_formata_reais[5-R$ 0,05] PASSED             [ 44%]
+tests/test_dinheiro.py::test_formata_reais[1250-R$ 12,50] PASSED         [ 45%]
+tests/test_dinheiro.py::test_formata_reais[123456-R$ 1.234,56] PASSED    [ 46%]
+tests/test_dinheiro.py::test_formata_reais[100000000-R$ 1.000.000,00] PASSED [ 47%]
+tests/test_dinheiro.py::test_formata_reais[-150--R$ 1,50] PASSED         [ 48%]
+tests/test_dinheiro.py::test_centavos_para_campo PASSED                  [ 49%]
+tests/test_init_db.py::test_init_db_com_exemplos PASSED                  [ 50%]
+tests/test_init_db.py::test_se_vazio_nao_apaga_dados_existentes PASSED   [ 51%]
+tests/test_init_db.py::test_se_vazio_cria_quando_nao_ha_tabelas PASSED   [ 52%]
+tests/test_produto_model.py::test_cadastra_produto_valido PASSED         [ 53%]
+tests/test_produto_model.py::test_remove_espacos_extras_do_nome PASSED   [ 54%]
+tests/test_produto_model.py::test_rn01_codigo_de_barras_invalido[] PASSED [ 55%]
+tests/test_produto_model.py::test_rn01_codigo_de_barras_invalido[123] PASSED [ 56%]
+tests/test_produto_model.py::test_rn01_codigo_de_barras_invalido[123456789012345] PASSED [ 58%]
+tests/test_produto_model.py::test_rn01_codigo_de_barras_invalido[78910001001AB] PASSED [ 59%]
+tests/test_produto_model.py::test_rn01_codigo_de_barras_duplicado PASSED [ 60%]
+tests/test_produto_model.py::test_rn01_editar_mantendo_o_mesmo_codigo_e_permitido PASSED [ 61%]
+tests/test_produto_model.py::test_rn02_nome_invalido[] PASSED            [ 62%]
+tests/test_produto_model.py::test_rn02_nome_invalido[ab] PASSED          [ 63%]
+tests/test_produto_model.py::test_rn02_nome_invalido[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx] PASSED [ 64%]
+tests/test_produto_model.py::test_rn03_preco_invalido[0] PASSED          [ 65%]
+tests/test_produto_model.py::test_rn03_preco_invalido[0,00] PASSED       [ 66%]
+tests/test_produto_model.py::test_rn03_preco_invalido[abc] PASSED        [ 67%]
+tests/test_produto_model.py::test_rn03_preco_invalido[] PASSED           [ 68%]
+tests/test_produto_model.py::test_rn03_preco_invalido[-3] PASSED         [ 69%]
+tests/test_produto_model.py::test_rn04_estoque_invalido[-1] PASSED       [ 70%]
+tests/test_produto_model.py::test_rn04_estoque_invalido[2.5] PASSED      [ 72%]
+tests/test_produto_model.py::test_rn04_estoque_invalido[abc] PASSED      [ 73%]
+tests/test_produto_model.py::test_rn04_estoque_invalido[] PASSED         [ 74%]
+tests/test_produto_model.py::test_mostra_todos_os_erros_de_uma_vez PASSED [ 75%]
+tests/test_produto_model.py::test_lista_e_busca_por_nome_ou_codigo PASSED [ 76%]
+tests/test_produto_model.py::test_lista_estoque_baixo PASSED             [ 77%]
+tests/test_produto_model.py::test_buscar_inexistente_lanca_erro PASSED   [ 78%]
+tests/test_produto_model.py::test_exclui_produto_sem_vendas PASSED       [ 79%]
+tests/test_produto_model.py::test_rn10_nao_exclui_produto_ja_vendido PASSED [ 80%]
+tests/test_venda_model.py::test_registra_venda_e_calcula_total PASSED    [ 81%]
+tests/test_venda_model.py::test_rn09_baixa_o_estoque PASSED              [ 82%]
+tests/test_venda_model.py::test_usa_o_preco_do_banco_e_nao_o_enviado PASSED [ 83%]
+tests/test_venda_model.py::test_junta_itens_repetidos PASSED             [ 84%]
+tests/test_venda_model.py::test_rn05_venda_sem_itens PASSED              [ 86%]
+tests/test_venda_model.py::test_rn06_quantidade_invalida[0] PASSED       [ 87%]
+tests/test_venda_model.py::test_rn06_quantidade_invalida[-1] PASSED      [ 88%]
+tests/test_venda_model.py::test_rn06_quantidade_invalida[abc] PASSED     [ 89%]
+tests/test_venda_model.py::test_rn06_estoque_insuficiente_nao_grava_nada PASSED [ 90%]
+tests/test_venda_model.py::test_produto_inexistente PASSED               [ 91%]
+tests/test_venda_model.py::test_rn07_forma_de_pagamento_invalida PASSED  [ 92%]
+tests/test_venda_model.py::test_rn08_dinheiro_calcula_troco PASSED       [ 93%]
+tests/test_venda_model.py::test_rn08_dinheiro_valor_exato_troco_zero PASSED [ 94%]
+tests/test_venda_model.py::test_rn08_dinheiro_valor_menor_que_total PASSED [ 95%]
+tests/test_venda_model.py::test_rn08_dinheiro_sem_valor_recebido PASSED  [ 96%]
+tests/test_venda_model.py::test_cartao_nao_guarda_valor_recebido PASSED  [ 97%]
+tests/test_venda_model.py::test_lista_vendas_e_resumo_do_dia PASSED      [ 98%]
+tests/test_venda_model.py::test_buscar_venda_inexistente PASSED          [100%]
+
+============================== 93 passed in 1.62s ==============================
+
+===== Front-end: node --test tests/js/carrinho.test.js =====
+ok 1 - formatarReais
+ok 2 - reaisParaCentavos
+ok 3 - adiciona itens e calcula o total
+ok 4 - somar o mesmo produto não duplica a linha
+ok 5 - não deixa passar do estoque
+ok 6 - rejeita quantidade inválida
+ok 7 - remove e limpa
+ok 8 - calcula troco
+ok 9 - envia só id e quantidade (o preço vem do servidor)
+# tests 9
+# pass 9
+# fail 0

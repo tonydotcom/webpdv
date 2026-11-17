@@ -1,0 +1,18 @@
+# Configuração de hospedagem no Render (render.com) - plano gratuito.
+# O banco PostgreSQL fica no Neon (neon.com), que é gratuito e não expira.
+services:
+  - type: web
+    name: webpdv
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    # --se-vazio: cria as tabelas e os produtos de exemplo só na primeira vez,
+    # sem apagar os dados quando o Render reinicia o serviço.
+    startCommand: flask --app run init-db --exemplos --se-vazio && gunicorn run:app
+    envVars:
+      - key: DATABASE_URL
+        sync: false          # o Render vai pedir: cole a connection string do Neon
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.12.7

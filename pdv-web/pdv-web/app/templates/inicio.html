@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block titulo %}Início{% endblock %}
+{% block conteudo %}
+<h1>Painel do dia</h1>
+
+<section class="cartoes">
+  <div class="cartao">
+    <span class="cartao-rotulo">Vendas hoje</span>
+    <strong class="cartao-valor" data-teste="qtd-vendas">{{ resumo.quantidade }}</strong>
+  </div>
+  <div class="cartao">
+    <span class="cartao-rotulo">Faturamento hoje</span>
+    <strong class="cartao-valor" data-teste="total-vendas">{{ resumo.total_centavos | reais }}</strong>
+  </div>
+  <a class="cartao cartao-acao" href="{{ url_for('vendas.nova') }}">
+    <span class="cartao-rotulo">Abrir o caixa</span>
+    <strong class="cartao-valor">Nova venda →</strong>
+  </a>
+</section>
+
+<div class="duas-colunas">
+  <section class="painel">
+    <h2>Estoque baixo</h2>
+    {% if estoque_baixo %}
+      <table>
+        <thead><tr><th>Produto</th><th class="num">Estoque</th></tr></thead>
+        <tbody>
+          {% for p in estoque_baixo %}
+            <tr>
+              <td><a href="{{ url_for('produtos.editar', produto_id=p.id) }}">{{ p.nome }}</a></td>
+              <td class="num"><span class="etiqueta {{ 'etiqueta-erro' if p.estoque == 0 else 'etiqueta-aviso' }}">{{ p.estoque }}</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="vazio">Nenhum produto com estoque baixo.</p>
+    {% endif %}
+  </section>
+
+  <section class="painel">
+    <h2>Últimas vendas de hoje</h2>
+    {% if ultimas_vendas %}
+      <table>
+        <thead><tr><th>Nº</th><th>Hora</th><th>Pagamento</th><th class="num">Total</th></tr></thead>
+        <tbody>
+          {% for v in ultimas_vendas %}
+            <tr>
+              <td><a href="{{ url_for('vendas.detalhe', venda_id=v.id) }}">#{{ v.id }}</a></td>
+              <td>{{ v.data_hora.strftime('%H:%M') }}</td>
+              <td>{{ v.forma_pagamento_descricao }}</td>
+              <td class="num">{{ v.total_centavos | reais }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="vazio">Nenhuma venda hoje ainda.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
